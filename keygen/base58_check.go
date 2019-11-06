@@ -10,7 +10,6 @@ import (
 const codeStr = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"
 
 var invCodeStr = make(map[byte]*big.Int)
-var big58 = big.NewInt(58)
 
 func init() {
 	for i := range codeStr {
@@ -40,7 +39,7 @@ func Encode(version, payload string) (string, error) {
 	x, _ := new(big.Int).SetString(extKey, 16)
 	for x.Cmp(big.NewInt(0)) == 1 {
 		var rem big.Int
-		x.DivMod(x, big58, &rem)
+		x.DivMod(x, big.NewInt(58), &rem)
 		outStr = string(codeStr[rem.Int64()]) + outStr
 	}
 
@@ -59,8 +58,8 @@ func Decode(base58Str string) (string, string) {
 	// construct byte string
 	x, pow58 := big.NewInt(0), big.NewInt(1)
 	for i := range outStr {
-		x.Add(x, big.NewInt(0).Mul(pow58, invCodeStr[outStr[len(outStr)-1-i]]))
-		pow58.Mul(pow58, big58)
+		x.Add(x, new(big.Int).Mul(pow58, invCodeStr[outStr[len(outStr)-1-i]]))
+		pow58.Mul(pow58, big.NewInt(58))
 	}
 
 	byteStr := x.Text(16)
