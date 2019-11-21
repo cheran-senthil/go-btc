@@ -98,7 +98,7 @@ func Private2Public(privateKey string, compressed bool) (string, error) {
 		return "02" + q.x.Text(16), nil
 	}
 
-	return "04" + q.x.Text(16) + q.y.Text(16), nil
+	return "04" + fmt.Sprintf("%064s", q.x.Text(16)) + fmt.Sprintf("%064s", q.y.Text(16)), nil
 }
 
 // Public2Address returns the address associated with a public key
