@@ -2,6 +2,7 @@ package keygen
 
 import (
 	"crypto/rand"
+	"fmt"
 	"math/big"
 )
 
@@ -15,7 +16,7 @@ func init() {
 // GenPrivateKey generates a hex encoded private key
 func GenPrivateKey() string {
 	privateKey, _ := rand.Int(rand.Reader, n)
-	return privateKey.Text(16)
+	return fmt.Sprintf("%064s", privateKey.Text(16))
 }
 
 // IsPrivateKeyValid checks if a given string is a valid private key

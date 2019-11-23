@@ -92,7 +92,7 @@ func Private2Public(privateKey string, compressed bool) (string, error) {
 
 	if compressed {
 		if big.NewInt(0).Cmp(new(big.Int).And(q.y, big.NewInt(1))) == -1 {
-			return "03" + q.x.Text(16), nil
+			return "03" + fmt.Sprintf("%064s", q.x.Text(16)), nil
 		}
 
 		return "02" + fmt.Sprintf("%064s", q.x.Text(16)), nil
@@ -110,7 +110,11 @@ func Public2Address(publicKey string, mainnet bool) (string, error) {
 
 	sum := sha256.Sum256(decoded)
 	ripemd160 := ripemd160.New()
-	ripemd160.Write(sum[:])
+	_, err = ripemd160.Write(sum[:])
+	if err != nil {
+		return "", err
+	}
+
 	payload := hex.EncodeToString(ripemd160.Sum(nil))
 	if mainnet {
 		return Encode("00", payload)
