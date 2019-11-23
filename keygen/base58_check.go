@@ -17,7 +17,7 @@ func init() {
 	}
 }
 
-// Encode a version byte and payload to creates a Base58Check string
+// Encode a version byte and payload to creates a Base58Check string.
 func Encode(version, payload string) (base58Str string, err error) {
 	// concatenate the version and payload
 	extKey := version + payload
@@ -50,7 +50,7 @@ func Encode(version, payload string) (base58Str string, err error) {
 	return leadingOnes + outStr, nil
 }
 
-// Decode a Base58Check string to a version byte and payload
+// Decode a Base58Check string to a version byte and payload.
 func Decode(base58Str string) (version, payload string) {
 	// strip leading 1's
 	outStr := strings.TrimLeft(base58Str, "1")
@@ -70,7 +70,7 @@ func Decode(base58Str string) (version, payload string) {
 	return byteStr[:2], byteStr[2 : len(byteStr)-8]
 }
 
-// ChecksumCheck checks if a Base58Check string is valid
+// ChecksumCheck checks if a Base58Check string is valid.
 func ChecksumCheck(base58Str string) (valid bool) {
 	base58StrCheck, err := Encode(Decode(base58Str))
 	if err != nil {

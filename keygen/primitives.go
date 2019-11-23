@@ -10,10 +10,11 @@ import (
 )
 
 type point struct {
-	x *big.Int
-	y *big.Int
+	x *big.Int // x coordinate
+	y *big.Int // y coordinate
 }
 
+// p associated with the Koblitz curve secp256k1.
 var p *big.Int
 
 func init() {
@@ -62,18 +63,18 @@ func ellipticAdd(q point, n point) point {
 	return q
 }
 
-// Private2Public returns the public key associated with a private key (hex string)
+// Private2Public returns the public key associated with a private key (hex string).
 func Private2Public(privateKey string, compressed bool) (publicKey string, err error) {
 	if !IsPrivateKeyValid(privateKey) {
 		return "", fmt.Errorf("%s is not a valid key", privateKey)
 	}
 
-	// base point
+	// The base point g.
 	var g, q point
 	g.x, _ = new(big.Int).SetString("79BE667EF9DCBBAC55A06295CE870B07029BFCDB2DCE28D959F2815B16F81798", 16)
 	g.y, _ = new(big.Int).SetString("483ADA7726A3C4655DA4FBFC0E1108A8FD17B448A68554199C47D08FFB10D4B8", 16)
 
-	// compute g * privateKey with repeated addition
+	// Compute g * privateKey with repeated addition.
 	x, _ := new(big.Int).SetString(privateKey, 16)
 	pow2, big2 := big.NewInt(1), big.NewInt(2)
 	for i := 0; i < 256; i++ {
@@ -100,7 +101,7 @@ func Private2Public(privateKey string, compressed bool) (publicKey string, err e
 	return "04" + fmt.Sprintf("%064s", q.x.Text(16)) + fmt.Sprintf("%064s", q.y.Text(16)), nil
 }
 
-// Public2Address returns the address associated with a public key
+// Public2Address returns the address associated with a public key.
 func Public2Address(publicKey string, mainnet bool) (address string, err error) {
 	decoded, err := hex.DecodeString(publicKey)
 	if err != nil {
@@ -122,7 +123,7 @@ func Public2Address(publicKey string, mainnet bool) (address string, err error) 
 	return Encode("6f", payload)
 }
 
-// Private2Address returns the address associated with a private key
+// Private2Address returns the address associated with a private key.
 func Private2Address(privateKey string, compressed, mainnet bool) (address string, err error) {
 	if !IsPrivateKeyValid(privateKey) {
 		return "", fmt.Errorf("%s is not a valid key", privateKey)
@@ -141,7 +142,7 @@ func Private2Address(privateKey string, compressed, mainnet bool) (address strin
 	return address, nil
 }
 
-// Private2WIF returns the Wallet Import Format (WIF) associated with a private key (hex string)
+// Private2WIF returns the Wallet Import Format (WIF) associated with a private key (hex string).
 func Private2WIF(privateKey string, compressed, mainnet bool) (wif string, err error) {
 	if !IsPrivateKeyValid(privateKey) {
 		return "", fmt.Errorf("%s is not a valid key", privateKey)
@@ -168,7 +169,7 @@ func Private2WIF(privateKey string, compressed, mainnet bool) (wif string, err e
 	return wif, nil
 }
 
-// WIF2Private returns the private key associated with a Wallet Import Format (WIF)
+// WIF2Private returns the private key associated with a Wallet Import Format (WIF).
 func WIF2Private(wif string, compressed bool) (privateKey string) {
 	_, privateKey = Decode(wif)
 	if compressed {
