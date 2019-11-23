@@ -5,7 +5,6 @@ import (
 	"encoding/hex"
 	"fmt"
 	"math/big"
-	"reflect"
 
 	"golang.org/x/crypto/ripemd160"
 )
@@ -23,7 +22,7 @@ func init() {
 
 func ellipticAdd(q point, n point) point {
 	var lam *big.Int
-	if reflect.DeepEqual(q, n) {
+	if q == n {
 		lam = new(big.Int).Mul(
 			new(big.Int).Mul(
 				big.NewInt(3),
@@ -79,7 +78,7 @@ func Private2Public(privateKey string, compressed bool) (publicKey string, err e
 	pow2, big2 := big.NewInt(1), big.NewInt(2)
 	for i := 0; i < 256; i++ {
 		if big.NewInt(0).Cmp(new(big.Int).And(x, pow2)) == -1 {
-			if reflect.DeepEqual(q, point{}) {
+			if q.x == nil {
 				q = g
 			} else {
 				q = ellipticAdd(q, g)
