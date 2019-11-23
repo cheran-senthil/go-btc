@@ -95,7 +95,7 @@ func Private2Public(privateKey string, compressed bool) (string, error) {
 			return "03" + q.x.Text(16), nil
 		}
 
-		return "02" + q.x.Text(16), nil
+		return "02" + fmt.Sprintf("%064s", q.x.Text(16)), nil
 	}
 
 	return "04" + fmt.Sprintf("%064s", q.x.Text(16)) + fmt.Sprintf("%064s", q.y.Text(16)), nil
