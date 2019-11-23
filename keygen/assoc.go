@@ -64,7 +64,7 @@ func ellipticAdd(q point, n point) point {
 }
 
 // Private2Public returns the public key associated with a private key (hex string)
-func Private2Public(privateKey string, compressed bool) (string, error) {
+func Private2Public(privateKey string, compressed bool) (publicKey string, err error) {
 	if !IsPrivateKeyValid(privateKey) {
 		return "", fmt.Errorf("%s is not a valid key", privateKey)
 	}
@@ -102,7 +102,7 @@ func Private2Public(privateKey string, compressed bool) (string, error) {
 }
 
 // Public2Address returns the address associated with a public key
-func Public2Address(publicKey string, mainnet bool) (string, error) {
+func Public2Address(publicKey string, mainnet bool) (address string, err error) {
 	decoded, err := hex.DecodeString(publicKey)
 	if err != nil {
 		return "", err
@@ -124,7 +124,7 @@ func Public2Address(publicKey string, mainnet bool) (string, error) {
 }
 
 // Private2Address returns the address associated with a private key
-func Private2Address(privateKey string, compressed, mainnet bool) (string, error) {
+func Private2Address(privateKey string, compressed, mainnet bool) (address string, err error) {
 	if !IsPrivateKeyValid(privateKey) {
 		return "", fmt.Errorf("%s is not a valid key", privateKey)
 	}
@@ -134,7 +134,7 @@ func Private2Address(privateKey string, compressed, mainnet bool) (string, error
 		return "", err
 	}
 
-	address, err := Public2Address(publicKey, mainnet)
+	address, err = Public2Address(publicKey, mainnet)
 	if err != nil {
 		return "", err
 	}
@@ -143,7 +143,7 @@ func Private2Address(privateKey string, compressed, mainnet bool) (string, error
 }
 
 // Private2WIF returns the Wallet Import Format (WIF) associated with a private key (hex string)
-func Private2WIF(privateKey string, compressed, mainnet bool) (string, error) {
+func Private2WIF(privateKey string, compressed, mainnet bool) (wif string, err error) {
 	if !IsPrivateKeyValid(privateKey) {
 		return "", fmt.Errorf("%s is not a valid key", privateKey)
 	}
@@ -161,7 +161,7 @@ func Private2WIF(privateKey string, compressed, mainnet bool) (string, error) {
 		return wif, nil
 	}
 
-	wif, err := Encode("ef", privateKey)
+	wif, err = Encode("ef", privateKey)
 	if err != nil {
 		return "", err
 	}
@@ -170,8 +170,8 @@ func Private2WIF(privateKey string, compressed, mainnet bool) (string, error) {
 }
 
 // WIF2Private returns the private key associated with a Wallet Import Format (WIF)
-func WIF2Private(wif string, compressed bool) string {
-	_, privateKey := Decode(wif)
+func WIF2Private(wif string, compressed bool) (privateKey string) {
+	_, privateKey = Decode(wif)
 	if compressed {
 		return privateKey[:len(privateKey)-2]
 	}

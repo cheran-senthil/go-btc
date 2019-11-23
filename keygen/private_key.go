@@ -14,13 +14,13 @@ func init() {
 }
 
 // GenPrivateKey generates a hex encoded private key
-func GenPrivateKey() string {
-	privateKey, _ := rand.Int(rand.Reader, n)
-	return fmt.Sprintf("%064s", privateKey.Text(16))
+func GenPrivateKey() (privateKey string) {
+	privateKeyInt, _ := rand.Int(rand.Reader, n)
+	return fmt.Sprintf("%064s", privateKeyInt.Text(16))
 }
 
 // IsPrivateKeyValid checks if a given string is a valid private key
-func IsPrivateKeyValid(privateKey string) bool {
+func IsPrivateKeyValid(privateKey string) (valid bool) {
 	privateKeyInt, ok := new(big.Int).SetString(privateKey, 16)
 	if !ok {
 		return false
