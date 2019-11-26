@@ -1,6 +1,8 @@
 # go-btc
+[![ReportCard][reportcard-image]][reportcard-url] [![GoDoc][godoc-image]][godoc-url] [![License][license-image]][license-url]
 
 go-btc is a minimalistic library, written purely in Golang, with Bitcoin utility functions.
+
 
 ## Features
 
@@ -10,7 +12,13 @@ go-btc is a minimalistic library, written purely in Golang, with Bitcoin utility
 
 go-btc can accept optional parameters as well to work with compressed keys and the testnet.
 
-## License
+## AGPL-3.0 License
 
-[GNU Affero General Public License v3.0](LICENSE) (c) 2019 Cheran Senthilkumar
+  Copyright (c) 2019 Cheran Senthilkumar
 
+[reportcard-url]: https://goreportcard.com/report/github.com/cheran-senthil/go-btc
+[reportcard-image]: https://goreportcard.com/badge/github.com/cheran-senthil/go-btc
+[godoc-url]: https://godoc.org/github.com/cheran-senthil/go-btc/keygen
+[godoc-image]: https://godoc.org/github.com/cheran-senthil/go-btc/keygen?status.svg
+[license-url]: https://www.gnu.org/licenses/agpl-3.0
+[license-image]: https://img.shields.io/badge/License-AGPL%20v3-blue.svg
